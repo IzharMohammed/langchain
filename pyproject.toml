@@ -3,11 +3,14 @@ name = "langchain-foundation"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.10,<3.11"
 dependencies = [
+    "arxiv>=2.2.0",
+    "bs4>=0.0.2",
     "ipykernel>=6.29.5",
     "langchain>=0.3.26",
     "langchain-community>=0.3.26",
+    "pymupdf>=1.26.1",
     "pypdf>=5.6.1",
     "python-dotenv>=1.1.1",
 ]
