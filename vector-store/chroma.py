@@ -32,3 +32,7 @@ vectordb=Chroma.from_documents(documents=splits,embedding=embedding,persist_dire
 db2=Chroma(persist_directory="./chroma_db",embedding_function=embedding)
 docs=db2.similarity_search(query)
 print(docs[0].page_content)
+
+## Retriever option
+retriever=vectordb.as_retriever()
+retriever.invoke(query)[0].page_content
