@@ -33,6 +33,18 @@ print(docs[0].page_content)
 docs_and_score=db.similarity_search_with_score(query)
 print(docs_and_score)
 
+## Similarity search with vector 
 print("************************************")
 embeddings_vector=embeddings.embed_query(query)
 print(embeddings_vector)
+
+docs_score=db.similarity_search_by_vector(embeddings_vector)
+print(docs_score)
+
+print("***********************************")
+## Saving and Loading
+db.save_local("faiss_index")
+
+new_db=FAISS.load_local("faiss_index",embeddings,allow_dangerous_deserialization=True)
+docs=new_db.similarity_search(query)
+print(docs)
