@@ -157,3 +157,130 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+
+## Complete Flow:-
+'''
+1. Prompt Template Creation
+
+prompt = ChatPromptTemplate.from_template(
+    """Answer the following question based only on the provided context:
+    <context>
+    {context}
+    </context>
+    
+    Question: {input}"""
+)
+What This Does:
+
+Creates a structured template for how the LLM should process the question and context
+
+The template has two variables:
+
+{context}: Will be filled with retrieved documents
+
+{input}: Will contain the user's question
+
+Why It's Important:
+
+Forces the LLM to only use the provided context (prevents hallucination)
+
+Clearly separates context from question for better model understanding
+
+The XML-like <context> tags help the model identify document boundaries
+
+Example Resulting Prompt:
+
+Answer the following question based only on the provided context:
+<context>
+[Document 1 content about LangSmith limits...]
+[Document 2 content about usage graphs...]
+</context>
+
+Question: What are LangSmith's usage limits?
+
+
+2. Document Chain Creation
+
+document_chain = create_stuff_documents_chain(llm, prompt)
+What This Does:
+
+Creates a chain that:
+
+Takes a list of documents
+
+"Stuffs" them into the prompt's {context} variable
+
+Passes the formatted prompt to the LLM
+
+Returns the LLM's response
+
+Key Characteristics:
+
+"Stuffing" means concatenating all relevant documents together
+
+Handles document formatting automatically
+
+Manages the token limit constraints
+
+Visual Flow:
+
+Documents → [Format into context] → [Combine with question] → LLM → Answer
+
+3. Retriever Setup
+
+retriever = vectorstore.as_retriever()
+
+What This Does:
+
+Creates a search interface for the vector store
+
+Can be configured with:
+
+search_type ("similarity", "mmr", etc.)
+
+search_kwargs (like k=4 for number of docs to retrieve)
+
+Default Behavior:
+
+Uses similarity search
+
+Returns top 4 most relevant documents by default
+
+Maintains document metadata
+
+4. Retrieval Chain Assembly
+
+retrieval_chain = create_retrieval_chain(retriever, document_chain)
+What This Creates:
+
+User Question → [Retriever] → Relevant Docs → [Document Chain] → LLM Answer
+Detailed Execution Flow:
+
+User submits a question ("What are LangSmith's usage limits?")
+
+Retriever:
+
+Converts question to embedding vector
+
+Finds most similar document chunks in FAISS index
+
+Returns top k relevant document snippets
+
+Document Chain:
+
+Inserts these documents into the prompt template
+
+Formats the complete prompt with question
+
+Sends to GPT-4 for processing
+
+LLM:
+
+Analyzes question in context of provided docs
+
+Generates answer strictly from the context
+
+Returns formatted response
+'''
