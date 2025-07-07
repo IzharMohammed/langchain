@@ -47,4 +47,4 @@ db.save_local("faiss_index")
 
 new_db=FAISS.load_local("faiss_index",embeddings,allow_dangerous_deserialization=True)
 docs=new_db.similarity_search(query)
-print(docs)
+print("here",docs)
