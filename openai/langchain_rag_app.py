@@ -57,7 +57,7 @@ def setup_data_pipeline():
     loader = WebBaseLoader("https://docs.smith.langchain.com/tutorials/Administrators/manage_spend")
     docs = loader.load()
     
-    # Split documents into chunks with overlap
+    # Split documents into chunks wit overlap
     print("Splitting documents into chunks...")
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=1000,      # Size of each chunk in characters
