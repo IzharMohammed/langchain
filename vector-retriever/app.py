@@ -52,3 +52,17 @@ similaritySearch = vectorStore.similarity_search_with_score("cat")
 print(f"similarity search with score:- {similaritySearch}")
 
 ## Retrievers
+from typing import List
+from langchain_core.runnables import RunnableLambda
+ 
+retriever = RunnableLambda(vectorStore.similarity_search).bind(k=1)
+retriever_batch = retriever.batch(["cat","dog"])
+print(f"retriever_batch:- {retriever_batch}")
+
+vectorStore.as_retriever(
+    search_type="similarity",
+    search_kwargs={"k":1}
+)
+
+retriever_batch_1=retriever.batch(["cat","dog"])
+print(f"retriever_batch_1:- {retriever_batch_1}")
