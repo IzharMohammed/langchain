@@ -85,7 +85,7 @@ Run the graph with sample input
 """
 def invoke_graph():
     graph_builder = build_and_display_graph()
-    result = graph_builder.invoke({"graph_info": "Hey My name is Krish"})
+    result = graph_builder.invoke({"graph_info": "Hey My name is izhar"})
     print(result)
 
 if __name__ == "__main__":
