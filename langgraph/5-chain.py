@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 import os
-os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
+# os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
 os.environ["GROQ_API_KEY"] = os.getenv("GROQ_API_KEY")
 
 from langchain_core.messages import AIMessage, HumanMessage
@@ -45,7 +45,8 @@ class State(TypedDict):
 # =============================================================================
 
 # Initialize the chat model
-llm = ChatGroq(model="qwen-qwq-32b")
+llm = ChatGroq(model="qwen/qwen3-32b")
+# llm=ChatGroq(model="Llama3-8b-8192")
 
 
 # =============================================================================
@@ -59,9 +60,6 @@ def add(a: int, b: int) -> int:
     Args:
         a (int): First integer
         b (int): Second integer
-        
-    Returns:
-        int: Sum of a and b
     """
     return a + b
 
@@ -136,3 +134,21 @@ if __name__ == "__main__":
     messages = graph.invoke({"messages": "What is Machine Learning"})
     for message in messages["messages"]:
         message.pretty_print()
+
+
+# messages=[AIMessage(content=f"Please tell me how can i help",name="LLM-Model")]
+# messages.append(HumanMessage(content=f"I want to learn coding",name="Izhar"))
+# messages.append(AIMessage(content=f"Which programming language you want to learn",name="LLM-Model"))
+# messages.append(HumanMessage(content=f"I want to learn rust",name="Izhar"))
+
+# for message in messages:
+#     message.pretty_print()
+
+# llm=ChatGroq(model="Llama3-8b-8192")
+# # llm=ChatGroq(model="qwen/qwen3-32b")
+# # llm=ChatGroq(model="openai/gpt-oss-120b")
+
+# response = llm.invoke(messages)
+# print("Response from LLM",response.content)
+# print("Metadata",response.response_metadata)
+
