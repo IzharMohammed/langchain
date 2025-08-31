@@ -21,6 +21,7 @@ dependencies = [
     "langchain-huggingface>=0.3.0",
     "langchain-ollama>=0.3.3",
     "langchain-openai>=0.3.25",
+    "langchain-tavily>=0.2.11",
     "langchain-text-splitters>=0.3.8",
     "langgraph>=0.6.3",
     "langserve>=0.3.1",
