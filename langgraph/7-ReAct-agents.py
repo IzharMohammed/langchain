@@ -1,27 +1,3 @@
-"""
-=============================================================================
-COMPREHENSIVE LANGGRAPH MULTI-TOOL CHATBOT
-=============================================================================
-
-This module demonstrates a complete implementation of a LangGraph-based chatbot
-that integrates multiple tools and demonstrates key concepts:
-
-CORE CONCEPTS COVERED:
-1. State Management with Message Reducers
-2. Tool Integration (Mathematical, Research, Web Search)
-3. Conditional Routing and Graph Flow Control
-4. LLM Integration with Tool Binding
-5. Graph Compilation and Execution
-
-ARCHITECTURE OVERVIEW:
-- State: Manages conversation history using message reducers
-- Nodes: Process state (LLM reasoning, tool execution)
-- Edges: Define flow between nodes (conditional and direct)
-- Tools: External capabilities (math, research, web search)
-
-WORKFLOW:
-User Input → LLM Processing → Tool Decision → Tool Execution → Response
-"""
 
 # =============================================================================
 # ENVIRONMENT SETUP AND IMPORTS
@@ -34,6 +10,9 @@ import os
 # Set up API keys from environment variables
 os.environ["GROQ_API_KEY"] = os.getenv("GROQ_API_KEY")
 os.environ["TAVILY_API_KEY"] = os.getenv("TAVILY_API_KEY")
+os.environ["LANGCHAIN_API_KEY"]=os.getenv("LANGCHAIN_API_KEY")
+os.environ["LANGCHAIN_TRACING_V2"]="true"
+os.environ["LANGCHAIN_PROJECT"]="ReAct-agent"
 
 # Core LangChain imports for message handling and chat models
 from langchain_core.messages import AIMessage, HumanMessage, AnyMessage
@@ -71,6 +50,15 @@ def add(a: int, b: int) -> int:
     """
     return a + b
 
+def multiply(a:int,b:int)->int:
+    """
+    Multiply a and b
+
+    Args:
+        a: first int
+        b:second int
+    """
+    return a*b
 
 # Configure ArXiv tool for academic paper searches
 # ArXiv is a repository of academic papers in physics, mathematics, computer science, etc.
@@ -102,7 +90,7 @@ tavily = TavilySearch(
 )
 
 # Combine all tools into a single list for easy management
-tools = [add, arxiv, wiki, tavily]
+tools = [add,multiply, arxiv, wiki, tavily]
 
 
 # =============================================================================
@@ -234,7 +222,7 @@ def build_graph():
     
     # 3. After tool execution, always go to END
     # Tools provide their results back to the conversation
-    builder.add_edge("tools", END)
+    builder.add_edge("tools", "tool_calling_llm")
     
     # Compile the graph for execution
     # Compilation optimizes the graph and prepares it for invocation
@@ -299,7 +287,7 @@ def demonstrate_capabilities():
     
     # Test Case 4: Real-time web search
     print("TEST 4: Real-time Information")
-    print("Query: 'What is the latest news about One Piece?'")
+    print("Query: 'What is the latest news about One Piece?' add 5 plus 5 and then multiply by 10")
     print("-" * 40)
     
     messages = graph.invoke({"messages": HumanMessage(
