@@ -1101,6 +1101,7 @@ dependencies = [
     { name = "langchain-tavily" },
     { name = "langchain-text-splitters" },
     { name = "langgraph" },
+    { name = "langgraph-cli", extra = ["inmem"] },
     { name = "langserve" },
     { name = "pymupdf" },
     { name = "pypdf" },
@@ -1133,6 +1134,7 @@ requires-dist = [
     { name = "langchain-tavily", specifier = ">=0.2.11" },
     { name = "langchain-text-splitters", specifier = ">=0.3.8" },
     { name = "langgraph", specifier = ">=0.6.3" },
+    { name = "langgraph-cli", extras = ["inmem"], specifier = ">=0.4.0" },
     { name = "langserve", specifier = ">=0.3.1" },
     { name = "pymupdf", specifier = ">=1.26.1" },
     { name = "pypdf", specifier = ">=5.6.1" },
@@ -1253,6 +1255,23 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/73/3e/d00eb2b56c3846a0cabd2e5aa71c17a95f882d4f799a6ffe96a19b55eba9/langgraph_checkpoint-2.1.1.tar.gz", hash = "sha256:72038c0f9e22260cb9bff1f3ebe5eb06d940b7ee5c1e4765019269d4f21cf92d", size = 136256, upload-time = "2025-07-17T13:07:52.411Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/4c/dd/64686797b0927fb18b290044be12ae9d4df01670dce6bb2498d5ab65cb24/langgraph_checkpoint-2.1.1-py3-none-any.whl", hash = "sha256:5a779134fd28134a9a83d078be4450bbf0e0c79fdf5e992549658899e6fc5ea7", size = 43925, upload-time = "2025-07-17T13:07:51.023Z" },
+]
+
+[[package]]
+name = "langgraph-cli"
+version = "0.4.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "click" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/56/b9/b9386748fee6061340a84c8eac33e3fb39861f9cbf95dd135e8d96399bca/langgraph_cli-0.4.0.tar.gz", hash = "sha256:0478989dd1d90c42449f0cc5e7ae6fc57e6031104a600195810d848dbc7f6fde", size = 734098, upload-time = "2025-08-26T14:23:21.011Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/f0/19/dfa21a9fb7064f86e16e132d1e94244f7073c8b0382443fec792f6f8a5fa/langgraph_cli-0.4.0-py3-none-any.whl", hash = "sha256:a7bc91d4e6112c4e186a74113764290a61f6a7c3385e50f9aeb58c18551e83d6", size = 37212, upload-time = "2025-08-26T14:23:19.987Z" },
+]
+
+[package.optional-dependencies]
+inmem = [
+    { name = "python-dotenv" },
 ]
 
 [[package]]

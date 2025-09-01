@@ -24,6 +24,7 @@ dependencies = [
     "langchain-tavily>=0.2.11",
     "langchain-text-splitters>=0.3.8",
     "langgraph>=0.6.3",
+    "langgraph-cli[inmem]>=0.4.0",
     "langserve>=0.3.1",
     "pymupdf>=1.26.1",
     "pypdf>=5.6.1",
