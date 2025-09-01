@@ -54,3 +54,68 @@ for chunk in graph_builder.stream({"messages":"Hyy, i am izhar and i like to sol
 for chunk in graph_builder.stream({"messages":"Hyy, i am izhar and i like to solve real world problems"},config,stream_mode="values"):
     print(chunk)
 
+## streaming with astream method
+config={"configurable":{"thread_id":"3"}}
+
+# async for event in graph_builder.astream_events({"messages":"Hyy, i am izhar and i like to solve real world problems"},config,version="v2"):
+    # print(event)
+
+
+
+# STREAMING MODES IN LANGGRAPH:
+
+# 1. 'updates' mode:
+#    - Returns only the updates/changes made at each step
+#    - Shows what each node produced
+#    - Best for: Monitoring node outputs, debugging individual steps
+
+# 2. 'values' mode:
+#    - Returns the complete state after each step
+#    - Shows the accumulated state
+#    - Best for: Seeing the full conversation history, final results
+
+# 3. 'debug' mode:
+#    - Returns detailed debugging information
+#    - Shows internal graph execution details
+#    - Best for: Debugging graph structure, understanding execution flow
+
+# 4. Multiple modes:
+#    - Can combine multiple modes like ['updates', 'values']
+#    - Returns data for all specified modes
+#    - Best for: Comprehensive monitoring
+
+# ASYNC VS SYNC STREAMING:
+
+# Synchronous streaming:
+# - Uses: graph_builder.stream()
+# - Blocks execution until each chunk is ready
+# - Good for: Simple applications, sequential processing
+
+# Asynchronous streaming:
+# - Uses: graph_builder.astream() or graph_builder.astream_events()
+# - Non-blocking, allows other operations to continue
+# - Good for: Web applications, concurrent processing, better performance
+
+# STREAM EVENTS (astream_events):
+# - Provides more granular event information
+# - Shows start/end of nodes, intermediate steps
+# - Version "v2" provides enhanced event data
+# - Best for: Fine-grained monitoring, performance analysis
+
+# MEMORY AND THREADING:
+# - Each thread_id maintains separate conversation state
+# - Memory persists across multiple invocations
+# - Different threads are isolated from each other
+# - Use same thread_id to continue conversations
+
+# ERROR HANDLING:
+# - Wrap streaming in try-catch blocks
+# - Handle network interruptions gracefully
+# - Consider timeout mechanisms for long-running streams
+
+# PERFORMANCE TIPS:
+# - Use async streaming for better concurrency
+# - Choose appropriate stream_mode for your needs
+# - Consider chunk processing time vs. user experience
+# - Monitor memory usage with long conversations
+#     """)
