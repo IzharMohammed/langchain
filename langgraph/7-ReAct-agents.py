@@ -66,6 +66,8 @@ from langchain_community.tools import ArxivQueryRun, WikipediaQueryRun
 from langchain_community.utilities import WikipediaAPIWrapper, ArxivAPIWrapper
 from langchain_tavily import TavilySearch
 
+# Memory saver
+from langgraph.checkpoint.memory import MemorySaver
 
 # =============================================================================
 # REACT AGENT TOOL DEFINITIONS
@@ -86,9 +88,6 @@ def add(a: int, b: int) -> int:
     Args:
         a: First integer to add
         b: Second integer to add
-        
-    Returns:
-        int: Sum of the two integers
     """
     return a + b
 
@@ -114,8 +113,6 @@ def multiply(a: int, b: int) -> int:
         a: First integer to multiply
         b: Second integer to multiply
         
-    Returns:
-        int: Product of the two integers
     """
     return a * b
 
@@ -385,10 +382,12 @@ def build_graph():
     # The agent can now reason about tool results and decide next steps
     builder.add_edge("tools", "tool_calling_llm")
     
+    # Adding memory
+    memory = MemorySaver()
     # REACT GRAPH COMPILATION:
     # Compile graph into optimized executable form
     # Validates ReAct cycle integrity and optimizes execution paths
-    return builder.compile()
+    return builder.compile(checkpointer=memory)
 
 
 # =============================================================================
@@ -476,6 +475,23 @@ def demonstrate_capabilities():
     
     print("=" * 80)
 
+
+def demonstrate_capabilities_with_memory():
+    config={"configurable":{"thread_id":"1"}}
+    graph_memory = build_graph()
+
+    messages=[HumanMessage(content="Add 12 and 13")]
+
+    messages=graph_memory.invoke({"messages":messages},config=config)
+    for m in messages["messages"]:
+        m.pretty_print()
+
+    messages=[HumanMessage(content="multiply that number to 100")]
+    
+    messages=graph_memory.invoke({"messages":messages},config=config)
+    print(messages)
+    for m in messages["messages"]:
+        m.pretty_print()
 
 # =============================================================================
 # REACT ARCHITECTURE CONCEPTS AND EXPLANATIONS
@@ -634,8 +650,9 @@ if __name__ == "__main__":
     
     try:
         # Execute comprehensive ReAct agent demonstrations
-        demonstrate_capabilities()
-        
+        # demonstrate_capabilities()
+        demonstrate_capabilities_with_memory() 
+
         print("\n" + "=" * 80)
         print("REACT AGENT DEMONSTRATION COMPLETE")
         print("=" * 80)
