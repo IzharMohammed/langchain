@@ -3,6 +3,6 @@
     "graphs":{
       "openai_agent":"./openai_agent.py:agent"
     },
-    "env":"../.env"
+    "env":"../../.env"
   
   }

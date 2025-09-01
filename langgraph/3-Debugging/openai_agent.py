@@ -23,7 +23,12 @@
 #     messages:Annotated[list[BaseMessage],add_messages]
 
 # # model=ChatOpenAI(temperature=0)
-# model=ChatGroq(model="Llama3-8b-8192")
+# model = ChatGroq(
+#     model="qwen/qwen3-32b",
+#     temperature=1.1,
+#     timeout=30,  # Add timeout
+#     max_retries=2  # Add retry logic
+# )
 
 # def make_default_graph():
 #     graph_workflow=StateGraph(State)
@@ -68,9 +73,8 @@
 #     agent = graph_workflow.compile()
 #     return agent
 
-# agent=make_alternative_graph()
+# agent=make_default_graph()
 
-# Fixed openai_agent.py - Using Groq instead of OpenAI
 from typing import Annotated
 from typing_extensions import TypedDict
 from langgraph.graph import END, START, StateGraph
@@ -92,8 +96,12 @@ class State(TypedDict):
     messages: Annotated[list[BaseMessage], add_messages]
 
 # Initialize model
-model = ChatGroq(model="Llama3-8b-8192", temperature=0)
-
+model = ChatGroq(
+    model="qwen/qwen3-32b",
+    temperature=1.1,
+    timeout=30,  # Add timeout
+    max_retries=2  # Add retry logic
+)
 def make_default_graph():
     """Create a simple chat agent without tools"""
     graph_workflow = StateGraph(State)
