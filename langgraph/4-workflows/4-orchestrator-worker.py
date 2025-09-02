@@ -11,7 +11,7 @@ from typing_extensions import Literal
 from pydantic import BaseModel, Field
 from langchain_core.messages import HumanMessage, SystemMessage
 from typing_extensions import TypedDict
-from langgraph.constants import Send
+from langgraph.types import Send
 from langgraph.graph import StateGraph, START, END
 from IPython.display import Image, display, Markdown
 
@@ -23,7 +23,12 @@ load_dotenv()
 os.environ["GROQ_API_KEY"] = os.getenv("GROQ_API_KEY")
 
 # Initialize the language model
-llm = ChatGroq(model="qwen-qwq-32b")
+llm = ChatGroq(
+    model="qwen/qwen3-32b", 
+    temperature=0.1,
+    timeout=30,  # Add timeout
+    max_retries=2  # Add retry logic
+)
 # llm = ChatOpenAI(model="gpt-4o")  # Uncomment if using OpenAI
 
 # Test the LLM connection
@@ -150,8 +155,8 @@ except Exception as e:
 # Test the orchestrator-worker workflow
 test_topics = [
     "Create a report on Agentic AI RAGs",
-    "Write about the future of renewable energy",
-    "Analyze the impact of blockchain technology"
+    # "Write about the future of renewable energy",
+    # "Analyze the impact of blockchain technology"
 ]
 
 for i, topic in enumerate(test_topics, 1):
@@ -259,33 +264,33 @@ def orchestrator_worker_use_cases():
     print("   - Multi-step customer inquiry resolution")
     print("   - Dynamic response generation based on context")
 
-if __name__ == "__main__":
-    print("Orchestrator-Worker Pattern in LangGraph")
-    print("Script converted from Jupyter notebook")
+# if __name__ == "__main__":
+#     print("Orchestrator-Worker Pattern in LangGraph")
+#     print("Script converted from Jupyter notebook")
     
-    # Run demonstrations
-    demonstrate_advanced_techniques()
-    orchestrator_worker_use_cases()
+#     # Run demonstrations
+#     # demonstrate_advanced_techniques()
+#     # orchestrator_worker_use_cases()
     
-    # Additional test cases
-    additional_tests = [
-        "Comprehensive analysis of quantum computing applications",
-        "Detailed guide on implementing machine learning pipelines",
-        "Market research report on electric vehicle adoption trends"
-    ]
+#     # Additional test cases
+#     additional_tests = [
+#         "Comprehensive analysis of quantum computing applications",
+#         "Detailed guide on implementing machine learning pipelines",
+#         "Market research report on electric vehicle adoption trends"
+#     ]
     
-    print("\n" + "="*50)
-    print("ADDITIONAL ORCHESTRATOR-WORKER TESTS")
-    print("="*50)
+#     print("\n" + "="*50)
+#     print("ADDITIONAL ORCHESTRATOR-WORKER TESTS")
+#     print("="*50)
     
-    for i, topic in enumerate(additional_tests, 1):
-        print(f"\nAdditional Test {i}: {topic}")
-        state = orchestrator_worker.invoke({"topic": topic})
+#     for i, topic in enumerate(additional_tests, 1):
+#         print(f"\nAdditional Test {i}: {topic}")
+#         state = orchestrator_worker.invoke({"topic": topic})
         
-        print(f"Generated {len(state.get('sections', []))} sections")
-        print(f"Final report length: {len(state.get('final_report', ''))} characters")
+#         print(f"Generated {len(state.get('sections', []))} sections")
+#         print(f"Final report length: {len(state.get('final_report', ''))} characters")
         
-        # Display a preview of the first section
-        if state.get("completed_sections"):
-            first_section_preview = state["completed_sections"][0][:200] + "..." if len(state["completed_sections"][0]) > 200 else state["completed_sections"][0]
-            print(f"First section preview: {first_section_preview}")
+#         # Display a preview of the first section
+#         if state.get("completed_sections"):
+#             first_section_preview = state["completed_sections"][0][:200] + "..." if len(state["completed_sections"][0]) > 200 else state["completed_sections"][0]
+#             print(f"First section preview: {first_section_preview}")
