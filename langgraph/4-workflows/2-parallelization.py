@@ -1,5 +1,5 @@
 """
-Parallelization in LangGraph Tutorial
+Parallelization in LangGraph
 """
 
 import os
@@ -129,8 +129,3 @@ print(result.get("premises", "Not generated"))
 print("\nStory Introduction:")
 print("-" * 30)
 print(result.get("story_intro", "Not generated"))
-
-# Key Benefits Section
-print("\n" + "="*50)
-print("KEY BENEFITS OF PARALLELIZATION")
-print("="*50)
