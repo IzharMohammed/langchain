@@ -156,7 +156,10 @@ builder.add_node("assistant", assistant)
 builder.add_node("tools", ToolNode(tools))
 builder.add_node("human_feedback", human_feedback)
 
-## Define dd_conditional_edges(
+## Define the edges
+builder.add_edge(START, "human_feedback")
+builder.add_edge("human_feedback", "assistant")
+builder.add_conditional_edges(
     "assistant",
     # If the latest message (result) from assistant is a tool call -> tools_condition routes to tools
     # If the latest message (result) from assistant is a not a tool call -> tools_condition routes to END
@@ -166,10 +169,7 @@ builder.add_edge("tools", "human_feedback")
 
 memory = MemorySaver()
 graph = builder.compile(interrupt_before=["human_feedback"], checkpointer=memory)
-the edges
-builder.add_edge(START, "human_feedback")
-builder.add_edge("human_feedback", "assistant")
-builder.a
+
 display(Image(graph.get_graph().draw_mermaid_png()))
 
 # Input
